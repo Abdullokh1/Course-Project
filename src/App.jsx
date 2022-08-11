@@ -6,7 +6,6 @@ import SignUp from "./components/SignUp/SignUp";
 import NoPage from "./components/NoPage/NoPage";
 import { useState } from "react";
 
-
 function App() {
   const [isDark, setIsDark] = useState(false);
   return (
@@ -20,7 +19,6 @@ function App() {
       <style>
         {isDark ? "button { background-color: #161B22; color: #fff }" : ""}
       </style>
-
       <Routes>
         <Route
           path="/"
