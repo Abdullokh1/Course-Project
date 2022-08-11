@@ -47,11 +47,11 @@ function Header({ setIsDark, isDark }) {
               <option value="en">English</option>
               <option value="uz">Uzbek</option>
             </select>
-            <Link className="btn header__links btn-primary" to="/Login">
+            <Link className="btn header__links" to="/Login">
               {t("Login")}
             </Link>
             <Link
-              className="btn header__links header__links-second btn-outline-primary"
+              className="btn header__links header__links-second "
               to="/SignUp"
             >
               {t("Signup")}
