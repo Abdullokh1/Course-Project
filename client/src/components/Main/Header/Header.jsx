@@ -12,10 +12,6 @@ function Header({ setIsDark, isDark }) {
     i18n.changeLanguage(lang);
   };
 
-  const logout = () =>{
-    localStorage.removeItem("token");
-    window.location.reload()
-  }
 
   return (
     <header className="header p-3">

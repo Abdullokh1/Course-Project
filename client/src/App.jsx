@@ -1,15 +1,13 @@
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Main from "./components/Main/Main";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
 import NoPage from "./components/NoPage/NoPage";
 import { useState } from "react";
-import axios from "axios";
 
 function App() {
   const [isDark, setIsDark] = useState(false);
-  const user = localStorage.getItem('token')
 
   return (
     <>
@@ -24,9 +22,8 @@ function App() {
       </style>
       <Routes>
         <Route path="/" element={<Main setIsDark={setIsDark} isDark={isDark} />}/>
-        
-        <Route path="/Login" element={<Login />} />
-        <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/Login"  element={<Login isDark={isDark} />} />
+        <Route path="/SignUp" element={<SignUp isDark={isDark}/>} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </>

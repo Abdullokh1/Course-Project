@@ -1,67 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
-import axios from 'axios'
 
-function Login() {
+function Login({ isDark }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { t } = useTranslation();
-  const [data, setData] = useState({
-    // userName: "",
-    email: "",
-    password: "",
-  });
-  
-  const [error, setError] = useState('')
+  let navigate = useNavigate()
 
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]: input.value });
-  };
-
-  const submitHandler = async(e) => {
-    e.preventDefault();
-     
-    try{
-      const url = 'https://localhost:8080/api/auth';
-      const {data:res} = await axios.post(url, data);
-      localStorage.setItem("token", res.data)
-      window.location = '/'
-    }catch(err){
-      if(err.response && err.response.status >= 400 && err.response.status <= 500){
-        setError(err.response.data.message)
-      }
-    }
+  async function loginUser (e){
+		e.preventDefault()
+		const response = await fetch('http://localhost:1337/api/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				email,
+				password,
+			}),
+		})
     
-  };
+		const data = await response.json()
+    console.log(data);
+
+		if (data.user) {
+			localStorage.setItem('token', data.user)
+			navigate('/')
+		} else {
+			alert('Please check your username and password')
+		}
+	}
 
   return (
     <div className="login">
       <h3>{t("Login to your account")}</h3>
       <p>
         {t("Don't have an account yet?")}
-        <Link to="/SignUp">{t("Signup")}</Link>
+        <Link className={isDark ? "text-white" : ""} to="/SignUp">
+          {t("Signup")}
+        </Link>
       </p>
 
-      <form onSubmit={submitHandler} className="form-login">
+      <form onSubmit={loginUser} className="form-login">
         <input
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
           placeholder="Email"
-          value={data.email}
           name="email"
           required
         />
         <input
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="Password"
-          value={data.password}
           name="password"
           required
         />
-        {error && <p>{error}</p>}
-        <button>{t("Login")}</button>
+        <button type="submit">{t("Login")}</button>
       </form>
     </div>
   );
