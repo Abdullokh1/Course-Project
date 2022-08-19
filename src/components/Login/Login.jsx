@@ -63,7 +63,6 @@ function Login({ isDark }) {
           required
         />
         <button type="submit">{t("Login")}</button>
-        <ToastContainer />
       </form>
     </div>
   );
